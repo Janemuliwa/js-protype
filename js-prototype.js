@@ -1,56 +1,31 @@
-Account.prototype.deposit = function(amount) {
-    if (this._isPositive(amount)) {
-      this.balance += amount;
-      console.info(`Deposit: ${this.name} new balance is ${this.balance}`);
-      return true;
-    }
-    return false;
+function bankAccount(accNo, accName, balance) {
+  this.accNo = accNo;
+  this.accName = accName;
+  this.balance = balance;
+}
+
+bankAccount.prototype.deposit = function (dAmount) {
+  if (isNaN(parseFloat(dAmount))) {
+      return console.log('please enter the amount in numbers')
+  } else if (Math.sign(dAmount) === -1) {
+      return console.log('please enter a positive number')
+  } else {
+      return console.log(`you have deposited ${dAmount} and this is your balance ${this.balance += dAmount}`)
   }
-  
-  Account.prototype.withdraw = function(amount) {
-    if (this._isAllowed(amount)) {
-      this.balance -= amount;
-      console.info(`Withdraw: ${this.name} new balance is ${this.balance}`);
-      return true;
-    }
-    return false;
+}
+
+bankAccount.prototype.withdraw = function (wAmount) {
+  if (wAmount > this.balance) {
+      return console.log(`you do not have sufficient balance in your account. Your account balance is ${this.balance}`)
+  } else {
+      return console.log(`you have withdrawn ${wAmount} and this is your balance ${this.balance -= wAmount}`)
   }
-  
-  Account.prototype.transfer = function(amount, account) {
-    if (this.withdraw(amount) && account.deposit(amount)) {
-      console.info(`Transfer: ${amount} has been moved from ${this.name} to ${account.name}`);
-      return true;
-    }
-    return false;
-  }
-  
-  
-  Account.prototype._isPositive = function(amount) {
-    const isPositive = amount > 0;
-    if (!isPositive) {
-      console.error('Amount must be positive!');
-      return false;
-    }
-    return true;
-  }
-  
-  Account.prototype._isAllowed = function(amount) {
-    if (!this._isPositive(amount)) return false;
-  
-    const isAllowed = this.balance - amount >= 0;
-    if (!isAllowed) {
-      console.error('You have insufficient funds!');
-      return false;
-    }
-    return true;
-  }
-  
-  const e = new Account('e', 100);
-  const f = new Account('f', 0);
-  
-  
-  output.innerText += `before:  e: ${e.balance}, f: ${f.balance}`;
-  
-  e.transfer(100, f);
-  
-  output.innerText += `after:  e: ${e.balance}, f: ${f.balance}`;
+}
+bankAccount.prototype.getBalance = function () {
+  return console.log(`your balance is ${this.balance}`)
+}
+
+user1 = new bankAccount(001, 'jane', 100000)
+console.log(user1.deposit(6000))
+console.log(user1.withdraw(30000))
+console.log(user1.getBalance())
